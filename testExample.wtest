@@ -1,9 +1,95 @@
-import example.pepita
+import elementos.*
 
-describe "group of tests for pepita" {
+describe "saber si un elemento es bueno o no" {
+    const casa1 = new Hogar(nivelDeMugre = 2, confort = 4)
+    const casa2 = new Hogar(nivelDeMugre = 8, confort = 3)
+    const huertaCacho = new Huerta(capacidadDeProduccion = 23)
+    const huertaMiguel = new Huerta(capacidadDeProduccion = 2)
+    const pepita = new Mascota(nivelDeSalud = 100)
+    const manchita = new Mascota(nivelDeSalud = 251)
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+    method initialize(){
+      nivel.nivelMinimo(10)
+    }
+  test "casa1 es un hogar bueno" {
+    assert.equals(2, casa1.nivelDeMugre())
+    assert.equals(4, casa1.confort())
+    assert.that(casa1.esBueno())
   }
 
+  test"casa2 no es un hogar bueno" {
+    assert.equals(3, casa2.confort())
+    assert.equals(8, casa2.nivelDeMugre())
+    assert.notThat(casa2.esBueno())
+  }
+
+  test"huerta de cacho es buena"{
+    assert.equals(23, huertaCacho.capacidadDeProduccion())
+    assert.that(huertaCacho.esBueno())
+  }
+
+  test"huerta de miguel no es buena"{
+    assert.equals(2, huertaMiguel.capacidadDeProduccion())
+    assert.notThat(huertaMiguel.esBueno())
+  }
+
+  test" pepita es una mascota no buena"{
+    assert.notThat(pepita.esBueno())
+  }
+
+  test"manchita es una buena mascota" {
+    assert.that(manchita.esBueno())
+
+  }
+
+}
+
+describe "saber si un barrio es copado" {  
+  const cruceCastelar = new Barrio()
+  
+    const casa1 = new Hogar(nivelDeMugre = 2, confort = 4)
+    const casa2 = new Hogar(nivelDeMugre = 5, confort = 3)
+    const huertaCacho = new Huerta(capacidadDeProduccion = 23)
+    const huertaMiguel = new Huerta(capacidadDeProduccion = 2)
+    const pepita = new Mascota(nivelDeSalud = 100)
+    const manchita = new Mascota(nivelDeSalud = 251)
+
+  method initialize(){
+    nivel.nivelMinimo(10)
+    cruceCastelar.agregarElemento(casa1)
+    cruceCastelar.agregarElemento(pepita)
+    cruceCastelar.agregarElemento(huertaCacho)
+  }
+  test "el barrio cruce castelar es copado" {
+    assert.that(cruceCastelar.elementos().contains(huertaCacho))
+    assert.that(cruceCastelar.elementos().contains(casa1))
+    assert.that(cruceCastelar.elementos().contains(pepita))
+    
+    assert.equals(2,cruceCastelar.elementosBuenos())
+
+    assert.that(cruceCastelar.esCopado())
+    
+  }
+}
+
+
+describe "nivel de daño de las cucarachas" {
+    const cuca = new PlagaDeCucarachas(poblacion = 100, pesoPromedio = 11)
+  test "daño que causan las cucarachas" {
+    assert.equals(50,cuca.nivelDeDaño())
+  }
+
+  test "plaga de cucarachas transmiten enfermedades"{
+    assert.that(cuca.transmitenEnfermedades())
+
+  }
+}
+
+describe "elemento recibe ataque" {
+  const pepa = new Mascota(nivelDeSalud = 260)
+  const pobla1 = new PlagaDePulgas(poblacion = 1000)
+  test "pepa recibe ataque de plaga de pulgas" {
+    pepa.ataqueDePlaga(pobla1)
+    assert.equals(0,pepa.nivelDeSalud())
+  }
 }
